@@ -60,7 +60,7 @@ inputs:
     default: "0"
 runs:
   using: "docker"
-  image: "docker://ghcr.io/polluxs/docker-swarm-deploy:latest"
+  image: "docker://ghcr.io/polluxs/swarminator:latest"
   env:
     REGISTRY: ${{ inputs.registry }}
     USERNAME: ${{ inputs.username }}

@@ -10,37 +10,36 @@
 [![Release version badge](https://img.shields.io/github/v/release/polluxs/swarminator)](https://github.com/polluxs/swarminator)
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/polluxs/swarminator?style=flat-square)
-[![license badge](https://img.shields.io/github/license/polluxs/docker-swarm-deploy)](./LICENSE)
+[![license badge](https://img.shields.io/github/license/polluxs/swarminator)](./LICENSE)
 
 </div>
 
 This is a security-focused fork of the original action, with stricter security requirements:
+
 - SSH private/public key pair authentication is mandatory (password authentication is not supported)
 - SSH host key verification is enforced
 
 These changes ensure more secure deployments in production environments.
 
-
 ## Configuration options
 
-| GitHub Action Input | Environment Variable | Summary | Required | Default Value |
-| --- | --- | --- | --- | --- |
-| `registry` | `REGISTRY` | Specify which container registry to login to. | |
-| `username` | `USERNAME` | Container registry username. | | |
-| `password` | `PASSWORD` | Container registry password. | | |
-| `remote_public_key` | `REMOTE_PUBLIC_KEY` | Public key used for ssh authentication. | ✅ | |
-| `remote_port` | `REMOTE_PORT` | SSH port to connect on the the machine running the Docker Swarm manager node. | | **22** |
-| `remote_user` | `REMOTE_USER` | User with SSH and Docker privileges on the machine running the Docker Swarm manager node. | ✅ | |
-| `remote_private_key` | `REMOTE_PRIVATE_KEY` | Private key used for ssh authentication. | ✅ | |
-| `remote_public_key` | `REMOTE_PUBLIC_KEY` | Public key used for ssh authentication. | ✅ | |
-| `remote_private_key_password` | `REMOTE_PRIVATE_KEY_PASSWORD` | Password for the private key (if key is password protected). | | |
-| `deploy_timeout` | `DEPLOY_TIMEOUT` | Seconds, to wait until the deploy finishes | | **600** |
-| `stack_file` | `STACK_FILE` | Path to the stack file used in the deploy. | ✅ | |
-| `stack_name` | `STACK_NAME` | Name of the stack to be deployed. | ✅ | |
-| `stack_param` | `STACK_PARAM` | Additional parameter (env var) to be passed to the stack. | | |
-| `env_file` | `ENV_FILE` | Additional environment variables to be passed to the stack. | | |
-| `debug` | `DEBUG` | Verbose logging | | **0** |
-
+| GitHub Action Input           | Environment Variable          | Summary                                                                                   | Required | Default Value |
+| ----------------------------- | ----------------------------- | ----------------------------------------------------------------------------------------- | -------- | ------------- |
+| `registry`                    | `REGISTRY`                    | Specify which container registry to login to.                                             |          |
+| `username`                    | `USERNAME`                    | Container registry username.                                                              |          |               |
+| `password`                    | `PASSWORD`                    | Container registry password.                                                              |          |               |
+| `remote_public_key`           | `REMOTE_PUBLIC_KEY`           | Public key used for ssh authentication.                                                   | ✅       |               |
+| `remote_port`                 | `REMOTE_PORT`                 | SSH port to connect on the the machine running the Docker Swarm manager node.             |          | **22**        |
+| `remote_user`                 | `REMOTE_USER`                 | User with SSH and Docker privileges on the machine running the Docker Swarm manager node. | ✅       |               |
+| `remote_private_key`          | `REMOTE_PRIVATE_KEY`          | Private key used for ssh authentication.                                                  | ✅       |               |
+| `remote_public_key`           | `REMOTE_PUBLIC_KEY`           | Public key used for ssh authentication.                                                   | ✅       |               |
+| `remote_private_key_password` | `REMOTE_PRIVATE_KEY_PASSWORD` | Password for the private key (if key is password protected).                              |          |               |
+| `deploy_timeout`              | `DEPLOY_TIMEOUT`              | Seconds, to wait until the deploy finishes                                                |          | **600**       |
+| `stack_file`                  | `STACK_FILE`                  | Path to the stack file used in the deploy.                                                | ✅       |               |
+| `stack_name`                  | `STACK_NAME`                  | Name of the stack to be deployed.                                                         | ✅       |               |
+| `stack_param`                 | `STACK_PARAM`                 | Additional parameter (env var) to be passed to the stack.                                 |          |               |
+| `env_file`                    | `ENV_FILE`                    | Additional environment variables to be passed to the stack.                               |          |               |
+| `debug`                       | `DEBUG`                       | Verbose logging                                                                           |          | **0**         |
 
 ## Using the GitHub Action
 
@@ -49,7 +48,6 @@ Add, or edit an existing, `yaml` file inside `.github/actions` and use the confi
 ### Examples
 
 #### Deploying public images
-
 
 ```yaml
 name: Deploy Staging
@@ -60,7 +58,6 @@ on:
       - main
 
 jobs:
-
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -87,10 +84,9 @@ name: Deploy Live
 on:
   push:
     tags:
-      - '*.*.*'
+      - "*.*.*"
 
 jobs:
-
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -131,6 +127,7 @@ DEBUG=1
 ```
 
 Run the following commands:
+
 ```bash
 # build your local docker image
 docker build -t docker-swarm-deploy-test .
@@ -147,19 +144,20 @@ docker build -t docker-swarm-deploy-test .
 
 ## Contribute
 
-- [Issue Tracker](https://github.com/polluxs/docker-swarm-deploy/issues)
-- [Source Code](https://github.com/swarm/docker-swarm-deploy/)
+- [Issue Tracker](https://github.com/polluxs/swarminator/issues)
+- [Source Code](https://github.com/swarm/swarminator/)
 
 Please **DO NOT** commit to version branches directly. Even for the smallest and most trivial fix.
 
 **ALWAYS** open a pull request and ask somebody else to merge your code. **NEVER** merge it yourself.
 
-
 ## Credits
+
 Forked from:
 [![kitconcept GmbH](https://raw.githubusercontent.com/kitconcept/docker-stack-deploy/main/docs/kitconcept.png)](https://kitconcept.com)
 
 This repository also uses the `docker-stack-wait` script, available at [GitHub](https://github.com/sudo-bmitch/docker-stack-wait).
+
 ## License
 
 The project is licensed under [MIT License](./LICENSE)
