@@ -147,10 +147,6 @@ docker build -t docker-swarm-deploy-test .
 - [Issue Tracker](https://github.com/polluxs/swarminator/issues)
 - [Source Code](https://github.com/swarm/swarminator/)
 
-Please **DO NOT** commit to version branches directly. Even for the smallest and most trivial fix.
-
-**ALWAYS** open a pull request and ask somebody else to merge your code. **NEVER** merge it yourself.
-
 ## Credits
 
 Forked from:
