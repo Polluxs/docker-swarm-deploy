@@ -157,7 +157,7 @@ else
   exit 1
 fi
 
-if configure_ssh_key >$OUT 2>&1; then
+if configure_ssh_keys >$OUT 2>&1; then
   echo "SSH client: Added private key"
 else
   echo "SSH client: Private key failed"
