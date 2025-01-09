@@ -44,29 +44,42 @@ configure_ssh_keys() {
 
   # Start ssh-agent and add key
   eval "$(ssh-agent)"
-  if [[ -n "${REMOTE_PRIVATE_KEY_PASSWORD}" ]]; then
+  if [[ -n "${REMOTE_PRIVATE_KEY_PASSWORD}" ]] || [[ -n "${INPUT_REMOTE_PRIVATE_KEY_PASSWORD}" ]]; then
     # Use expect to handle password-protected key
     # Debug output
     if [ "${DEBUG}" != "0" ]; then
       echo "Debug: Adding key with password"
       echo "Debug: Key file exists: $(test -f "${SSH_KEY}" && echo "yes" || echo "no")"
       echo "Debug: Key file permissions: $(stat -c %a "${SSH_KEY}")"
+      echo "Debug: Key file contents check: $(head -n 1 "${SSH_KEY}" | grep -q "BEGIN" && echo "valid" || echo "invalid")"
     fi
 
-    export SSH_KEY_PATH="${SSH_KEY}"
-    export SSH_KEY_PASS="${REMOTE_PRIVATE_KEY_PASSWORD}"
+    # Handle both regular and INPUT_ prefixed variables
+    KEY_PASSWORD="${REMOTE_PRIVATE_KEY_PASSWORD:-${INPUT_REMOTE_PRIVATE_KEY_PASSWORD}}"
 
-    expect <<EOF
-      set timeout 20
+    # Debug the key content (first line only)
+    if [ "${DEBUG}" != "0" ]; then
+      echo "Debug: Testing key decryption..."
+      ssh-keygen -y -f "${SSH_KEY}" -P "${KEY_PASSWORD}" >/dev/null 2>&1 && echo "Debug: Key decryption test successful" || echo "Debug: Key decryption test failed"
+    fi
+
+    expect -d <<EOF
       log_user 1
-      spawn ssh-add "\$env(SSH_KEY_PATH)"
+      set timeout 20
+      set password [lindex {${KEY_PASSWORD}} 0]
+      spawn ssh-add ${SSH_KEY}
       expect {
         "Enter passphrase" {
-          send "\$env(SSH_KEY_PASS)\r"
+          send "\$password\r"
           exp_continue
         }
         "Identity added" {
+          puts "Key added successfully"
           exit 0
+        }
+        "Bad passphrase" {
+          puts "Wrong passphrase provided"
+          exit 1
         }
         timeout {
           puts "Timeout waiting for password prompt"
