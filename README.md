@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/marketplace/actions/docker-stack-deploy-action">
-    <img alt="GitHub Pages Deploy Action Logo" width="200px" src="https://raw.githubusercontent.com/polluxs/docker-swarm-deploy/main/docs/icon.png">
+    <img alt="GitHub Pages Deploy Action Logo" width="200px" src="https://raw.githubusercontent.com/polluxs/swarminator/main/docs/icon.png">
   </a>
 </p>
 
@@ -10,10 +10,10 @@
 
 <div align="center">
 
-[![GitHub Actions Marketplace](https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange)](https://github.com/marketplace/actions/docker-stack-deploy-action)
-[![Release version badge](https://img.shields.io/github/v/release/polluxs/docker-swarm-deploy)](https://github.com/kitconcept/docker-stack-deploy/releases)
+[![GitHub Actions Marketplace](https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange)](https://github.com/marketplace/actions/swarminator)
+[![Release version badge](https://img.shields.io/github/v/release/polluxs/swarminator)](https://github.com/polluxs/swarminator)
 
-![GitHub Repo stars](https://img.shields.io/github/stars/polluxs/docker-swarm-deploy?style=flat-square)
+![GitHub Repo stars](https://img.shields.io/github/stars/polluxs/swarminator?style=flat-square)
 [![license badge](https://img.shields.io/github/license/polluxs/docker-swarm-deploy)](./LICENSE)
 
 </div>
@@ -72,7 +72,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Deploy
-        uses: kitconcept/docker-stack-deploy@v1.0.1
+        uses: polluxs/swarminator@v1.0.0
         with:
           remote_host: ${{ secrets.REMOTE_HOST }}
           remote_user: ${{ secrets.REMOTE_USER }}
@@ -102,7 +102,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Deploy
-        uses: kitconcept/docker-stack-deploy@v1.0.1
+        uses: polluxs/swarminator@v1.0.0
         with:
           registry: "ghcr.io"
           username: ${{ secrets.GHCR_USERNAME }}
@@ -117,7 +117,7 @@ jobs:
 
 ## Using the Docker Image
 
-It is possible to directly use the `ghcr.io/polluxs/docker-swarm-deploy` Docker image, passing the configuration options as environment variables.
+It is possible to directly use the `ghcr.io/polluxs/swarminator` Docker image, passing the configuration options as environment variables.
 
 ### Examples
 
