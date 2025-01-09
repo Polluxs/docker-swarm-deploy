@@ -8,7 +8,7 @@ on:
       - "v*.*.*"
 
 env:
-  IMAGE_NAME: ghcr.io/polluxs/docker-swarm-deploy
+  IMAGE_NAME: ghcr.io/polluxs/swarminator
 
 jobs:
   release:
