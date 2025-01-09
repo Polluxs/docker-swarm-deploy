@@ -164,8 +164,6 @@ Forked from:
 [![kitconcept GmbH](https://raw.githubusercontent.com/kitconcept/docker-stack-deploy/main/docs/kitconcept.png)](https://kitconcept.com)
 
 This repository also uses the `docker-stack-wait` script, available at [GitHub](https://github.com/sudo-bmitch/docker-stack-wait).
-
-The logo is based on [rocket icon](https://freeicons.io/seo/rocket-icon-24668#).
 ## License
 
 The project is licensed under [MIT License](./LICENSE)
