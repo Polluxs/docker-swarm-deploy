@@ -4,10 +4,6 @@
   </a>
 </p>
 
-<h1 align="center">
-  Swampinator
-</h1>
-
 <div align="center">
 
 [![GitHub Actions Marketplace](https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange)](https://github.com/marketplace/actions/swarminator)
