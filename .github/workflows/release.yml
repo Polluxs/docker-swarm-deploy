@@ -3,19 +3,17 @@ name: Release Image
 on:
   push:
     branches:
-      - 'main'
+      - "main"
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
 
 env:
-  IMAGE_NAME: ghcr.io/kitconcept/docker-stack-deploy
+  IMAGE_NAME: ghcr.io/polluxs/docker-swarm-deploy
 
 jobs:
-
   release:
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout
         uses: actions/checkout@v3
 
