@@ -5,7 +5,7 @@
 </p>
 
 <h1 align="center">
-  Docker Swarm Deploy Tool
+  Swampinator
 </h1>
 
 <div align="center">
