@@ -117,7 +117,7 @@ jobs:
 
 ## Using the Docker Image
 
-It is possible to directly use the `ghcr.io/kitconcept/docker-stack-deploy` Docker image, passing the configuration options as environment variables.
+It is possible to directly use the `ghcr.io/polluxs/docker-swarm-deploy` Docker image, passing the configuration options as environment variables.
 
 ### Examples
 
@@ -126,79 +126,33 @@ It is possible to directly use the `ghcr.io/kitconcept/docker-stack-deploy` Dock
 Considering you have a local file named `.env_deploy` with content:
 
 ```
-REGISTRY=hub.docker.com
-USERNAME=foo_usr
-PASSWORD=averylargepasswordortoken
-REMOTE_HOST=192.168.17.2
-REMOTE_PORT=22
-REMOTE_USER=user
-STACK_FILE=path/to/stack.yml
-STACK_NAME=mystack
+REMOTE_HOST=192.0.0.1
+REMOTE_PRIVATE_KEY_PASSWORD=MYSECRETPASSWORD
+REMOTE_USER=root
+STACK_FILE=stacks/hello-world.yml
+STACK_NAME=hello-world
 DEBUG=1
 ```
 
-Run the following command:
-```shell
-docker run --rm
-  -v "$(pwd)":/github/workspace
-  -v /var/run/docker.sock:/var/run/docker.sock
-  --env-file=.env_deploy
-  -e REMOTE_PRIVATE_KEY="$(cat ~/.ssh/id_rsa)"
-  ghcr.io/kitconcept/docker-stack-deploy:latest
-```
+Run the following commands:
+```bash
+# build your local docker image
+docker build -t docker-swarm-deploy-test .
 
-#### GitLab CI
-
-On your GitLab project, go to  `Settings -> CI/CD` and add the environment variables under **Variables**.
-
-Then edit your `.gitlab-cy.yml` to include the `deploy` step:
-
-```yaml
-image: busybox:latest
-
-services:
-  - docker:20.10.16-dind
-
-before_script:
-  - docker info
-
-deploy:
-  stage: deploy
-  varibles:
-    REGISTRY: ${REGISTRY}
-    USERNAME: ${REGISTRY_USER}
-    PASSWORD: ${REGISTRY_PASSWORD}
-    REMOTE_HOST: ${DEPLOY_HOST}
-    REMOTE_PORT: 22
-    REMOTE_USER: ${DEPLOY_USER}
-    REMOTE_PRIVATE_KEY: "${DEPLOY_KEY}"
-    STACK_FILE: stacks/app.yml
-    STACK_NAME: app
-    DEPLOY_IMAGE: ghcr.io/kitconcept/docker-stack-deploy:latest
-  script:
-    - docker pull ${DEPLOY_IMAGE}
-    - docker run --rm
-       -v "$(pwd)":/github/workspace
-       -v /var/run/docker.sock:/var/run/docker.sock
-       -e REGISTRY=${REGISTRY}
-       -e USERNAME=${USERNAME}
-       -e PASSWORD=${PASSWORD}
-       -e REMOTE_HOST=${REMOTE_HOST}
-       -e REMOTE_PORT=${REMOTE_PORT}
-       -e REMOTE_USER=${REMOTE_USER}
-       -e REMOTE_PRIVATE_KEY="${REMOTE_PRIVATE_KEY}"
-       -e STACK_FILE=${STACK_FILE}
-       -e STACK_NAME=${STACK_NAME}
-       -e DEBUG=1
-       ${DEPLOY_IMAGE}
-
+# run from local docker image
+``docker run --rm \                                                           1 ✘  14:04:57
+  -v "$(pwd)":/github/workspace \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  --env-file=.env_deploy \
+  -e REMOTE_PRIVATE_KEY="$(cat ~/.ssh/id_rsa)" \
+  -e REMOTE_PUBLIC_KEY="$(cat ~/.ssh/id_rsa.pub)" \
+  docker-swarm-deploy-test`
 ```
 
 ## Contribute
 
-- [Issue Tracker](https://github.com/kitconcept/docker-stack-deploy/issues)
-- [Source Code](https://github.com/kitconcept/docker-stack-deploy/)
-- [Documentation](https://github.com/kitconcept/docker-stack-deploy/)
+- [Issue Tracker](https://github.com/polluxs/docker-swarm-deploy/issues)
+- [Source Code](https://github.com/swarm/docker-swarm-deploy/)
 
 Please **DO NOT** commit to version branches directly. Even for the smallest and most trivial fix.
 
@@ -206,7 +160,7 @@ Please **DO NOT** commit to version branches directly. Even for the smallest and
 
 
 ## Credits
-
+Forked from:
 [![kitconcept GmbH](https://raw.githubusercontent.com/kitconcept/docker-stack-deploy/main/docs/kitconcept.png)](https://kitconcept.com)
 
 This repository also uses the `docker-stack-wait` script, available at [GitHub](https://github.com/sudo-bmitch/docker-stack-wait).
