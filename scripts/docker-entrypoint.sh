@@ -46,12 +46,42 @@ configure_ssh_keys() {
   eval "$(ssh-agent)"
   if [[ -n "${REMOTE_PRIVATE_KEY_PASSWORD}" ]]; then
     # Use expect to handle password-protected key
+    # Debug output
+    if [ "${DEBUG}" != "0" ]; then
+      echo "Debug: Adding key with password"
+      echo "Debug: Key file exists: $(test -f "${SSH_KEY}" && echo "yes" || echo "no")"
+      echo "Debug: Key file permissions: $(stat -c %a "${SSH_KEY}")"
+    fi
+
+    export SSH_KEY_PATH="${SSH_KEY}"
+    export SSH_KEY_PASS="${REMOTE_PRIVATE_KEY_PASSWORD}"
+
     expect <<EOF
-      spawn ssh-add ${SSH_KEY}
-      expect "Enter passphrase"
-      send "${REMOTE_PRIVATE_KEY_PASSWORD}\n"
-      expect eof
+      set timeout 20
+      log_user 1
+      spawn ssh-add "\$env(SSH_KEY_PATH)"
+      expect {
+        "Enter passphrase" {
+          send "\$env(SSH_KEY_PASS)\r"
+          exp_continue
+        }
+        "Identity added" {
+          exit 0
+        }
+        timeout {
+          puts "Timeout waiting for password prompt"
+          exit 1
+        }
+        eof {
+          puts "SSH add failed"
+          exit 1
+        }
+      }
 EOF
+    if [ $? -ne 0 ]; then
+      echo "Failed to add SSH key with password"
+      exit 1
+    fi
   else
     ssh-add "${SSH_KEY}"
   fi
