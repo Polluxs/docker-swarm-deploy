@@ -30,9 +30,12 @@ inputs:
   remote_private_key:
     description: "Private key used for ssh authentication"
     required: true
+  remote_private_key_password:
+    description: "Password for the private key (if key is password protected)"
+    required: false
   remote_public_key:
     description: "Public key used for ssh authentication"
-    required: false
+    required: true
   deploy_timeout:
     description: "Timeout for the deploy check (in seconds)"
     required: false

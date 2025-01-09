@@ -18,6 +18,14 @@ configure_ssh() {
 }
 
 configure_ssh_keys() {
+  # Verify expect is available for password-protected keys
+  if [[ -n "${REMOTE_PRIVATE_KEY_PASSWORD}" ]]; then
+    if ! command -v expect &>/dev/null; then
+      echo "'expect' package is required but not found"
+      exit 1
+    fi
+  fi
+
   # Configure private key
   printf '%s' "$REMOTE_PRIVATE_KEY" >"${SSH_KEY}"
   lastLine=$(tail -n 1 "${SSH_KEY}")
@@ -26,18 +34,27 @@ configure_ssh_keys() {
   fi
   chmod 600 "${SSH_KEY}"
 
-  # Configure public key if provided
-  if [[ -n "${REMOTE_PUBLIC_KEY}" ]]; then
-    printf '%s' "$REMOTE_PUBLIC_KEY" >"${SSH_KEY}.pub"
-    lastLine=$(tail -n 1 "${SSH_KEY}.pub")
-    if [ "${lastLine}" != "" ]; then
-      printf '\n' >>"${SSH_KEY}.pub"
-    fi
-    chmod 644 "${SSH_KEY}.pub"
+  # Configure public key
+  printf '%s' "$REMOTE_PUBLIC_KEY" >"${SSH_KEY}.pub"
+  lastLine=$(tail -n 1 "${SSH_KEY}.pub")
+  if [ "${lastLine}" != "" ]; then
+    printf '\n' >>"${SSH_KEY}.pub"
   fi
+  chmod 644 "${SSH_KEY}.pub"
 
+  # Start ssh-agent and add key
   eval "$(ssh-agent)"
-  ssh-add "${SSH_KEY}"
+  if [[ -n "${REMOTE_PRIVATE_KEY_PASSWORD}" ]]; then
+    # Use expect to handle password-protected key
+    expect <<EOF
+      spawn ssh-add ${SSH_KEY}
+      expect "Enter passphrase"
+      send "${REMOTE_PRIVATE_KEY_PASSWORD}\n"
+      expect eof
+EOF
+  else
+    ssh-add "${SSH_KEY}"
+  fi
 }
 
 configure_env_file() {

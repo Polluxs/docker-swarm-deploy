@@ -1,24 +1,28 @@
 <p align="center">
   <a href="https://github.com/marketplace/actions/docker-stack-deploy-action">
-    <img alt="GitHub Pages Deploy Action Logo" width="200px" src="https://raw.githubusercontent.com/kitconcept/docker-stack-deploy/main/docs/icon.png">
+    <img alt="GitHub Pages Deploy Action Logo" width="200px" src="https://raw.githubusercontent.com/polluxs/docker-swarm-deploy/main/docs/icon.png">
   </a>
 </p>
 
 <h1 align="center">
-  Docker Stack Deploy Tool
+  Docker Swarm Deploy Tool
 </h1>
 
 <div align="center">
 
 [![GitHub Actions Marketplace](https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange)](https://github.com/marketplace/actions/docker-stack-deploy-action)
-[![Release version badge](https://img.shields.io/github/v/release/kitconcept/docker-stack-deploy)](https://github.com/kitconcept/docker-stack-deploy/releases)
+[![Release version badge](https://img.shields.io/github/v/release/polluxs/docker-swarm-deploy)](https://github.com/kitconcept/docker-stack-deploy/releases)
 
-![GitHub Repo stars](https://img.shields.io/github/stars/kitconcept/docker-stack-deploy?style=flat-square)
-[![license badge](https://img.shields.io/github/license/kitconcept/docker-stack-deploy)](./LICENSE)
+![GitHub Repo stars](https://img.shields.io/github/stars/polluxs/docker-swarm-deploy?style=flat-square)
+[![license badge](https://img.shields.io/github/license/polluxs/docker-swarm-deploy)](./LICENSE)
 
 </div>
 
-GitHub Action and Docker image used to deploy a Docker stack on a Docker Swarm.
+This is a security-focused fork of the original action, with stricter security requirements:
+- SSH private/public key pair authentication is mandatory (password authentication is not supported)
+- SSH host key verification is enforced
+
+These changes ensure more secure deployments in production environments.
 
 
 ## Configuration options
@@ -28,11 +32,12 @@ GitHub Action and Docker image used to deploy a Docker stack on a Docker Swarm.
 | `registry` | `REGISTRY` | Specify which container registry to login to. | |
 | `username` | `USERNAME` | Container registry username. | | |
 | `password` | `PASSWORD` | Container registry password. | | |
-| `remote_host` | `REMOTE_HOST` | Hostname or address of the machine running the Docker Swarm manager node | ✅ | |
+| `remote_public_key` | `REMOTE_PUBLIC_KEY` | Public key used for ssh authentication. | ✅ | |
 | `remote_port` | `REMOTE_PORT` | SSH port to connect on the the machine running the Docker Swarm manager node. | | **22** |
 | `remote_user` | `REMOTE_USER` | User with SSH and Docker privileges on the machine running the Docker Swarm manager node. | ✅ | |
 | `remote_private_key` | `REMOTE_PRIVATE_KEY` | Private key used for ssh authentication. | ✅ | |
-| `remote_public_key` | `REMOTE_PUBLIC_KEY` | Public key used for ssh authentication. | | |
+| `remote_public_key` | `REMOTE_PUBLIC_KEY` | Public key used for ssh authentication. | ✅ | |
+| `remote_private_key_password` | `REMOTE_PRIVATE_KEY_PASSWORD` | Password for the private key (if key is password protected). | | |
 | `deploy_timeout` | `DEPLOY_TIMEOUT` | Seconds, to wait until the deploy finishes | | **600** |
 | `stack_file` | `STACK_FILE` | Path to the stack file used in the deploy. | ✅ | |
 | `stack_name` | `STACK_NAME` | Name of the stack to be deployed. | ✅ | |
