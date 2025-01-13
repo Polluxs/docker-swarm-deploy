@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/marketplace/actions/docker-stack-deploy-action">
-    <img alt="GitHub Pages Deploy Action Logo" width="250px" src="https://raw.githubusercontent.com/polluxs/swarminator/main/docs/icon.png">
+    <img alt="GitHub Pages Deploy Action Logo" width="200px" src="https://raw.githubusercontent.com/polluxs/swarminator/main/docs/icon.png">
   </a>
 </p>
 
